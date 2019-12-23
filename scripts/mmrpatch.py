@@ -53,9 +53,11 @@ def read_patch(f):
 
         header = f.read(8)
         if len(header) < 8:
-            break
+            raise Exception('Incomplete patch header at entry: 0x{:08X}'.format(pos))
         (address, length) = struct.unpack('>II', header)
         data = f.read(length)
+        if len(data) != length:
+            raise Exception('Incomplete patch data at entry: 0x{:08X}'.format(pos))
         patches.append(PatchData(address, pos, data))
 
     return tuple(patches)
