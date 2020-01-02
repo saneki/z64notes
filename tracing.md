@@ -1220,3 +1220,4 @@ Successfully got a working debug menu.
   - ... however starting at `0x807A0044` some more data? Not much.
   - ... which seems to end at `0x807A3FCC`.
   - ... Woodfall crashes, uses up to `0x807A5E08`?
+  - ... Lens of Truth crashes, uses up to `0x807A9E00`?
