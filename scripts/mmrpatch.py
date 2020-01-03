@@ -5,6 +5,7 @@ import collections
 import csv
 import hexdump
 import struct
+import sys
 
 """ VROM file info. """
 VRomFile = collections.namedtuple('VRomFile', ('start', 'end', 'name'))
@@ -12,34 +13,56 @@ VRomFile = collections.namedtuple('VRomFile', ('start', 'end', 'name'))
 """ Patch data. """
 PatchData = collections.namedtuple('PatchData', ('address', 'offset', 'data'))
 
-def generate_vrom_file_list_csv(csvfile):
-    """
-    Parse CSV file with VRom file list information.
+class InfoWriter(object):
+    """ Writes info for PatchData entries. """
+    def __init__(self, vrom_files=tuple()):
+        self._vrom_files = vrom_files
 
-    Reference: "The Ultimate MM Spreadsheet - File List (US) 1.0.csv"
-    """
-    reader = csv.reader(csvfile)
-    for row in reader:
-        # Ignore first row of headers
-        if row[0] != '#':
-            yield VRomFile(start=int(row[1]), end=int(row[2]), name=row[10])
+    @staticmethod
+    def from_csv(csvfile):
+        """ Construct by parsing VRomFile entries from a CSV file. """
+        vrom_files = tuple(InfoWriter.generate_vrom_file_list_csv(csvfile))
+        return InfoWriter(vrom_files)
 
-def find_file_for_address(address, vrom_files):
-    """ Find the VRom file which contains the given address. """
-    for vfile in vrom_files:
-        if vfile.start <= address < vfile.end:
-            return vfile
+    @staticmethod
+    def generate_vrom_file_list_csv(csvfile):
+        """
+        Parse CSV file with VRom file list information.
 
-def print_patch(data, vrom_files):
-    """ Print patch entry. """
-    if vrom_files is not None:
-        vfile = find_file_for_address(data.address, vrom_files)
+        Reference: "The Ultimate MM Spreadsheet - File List (US) 1.0.csv"
+        """
+        reader = csv.reader(csvfile)
+        for row in reader:
+            # Ignore first row of headers
+            if row[0] != '#':
+                yield VRomFile(start=int(row[1]), end=int(row[2]), name=row[10])
+
+    @property
+    def vrom_files(self):
+        """ Get the VRomFile entries. """
+        return self._vrom_files
+
+    def find_file_for_address(self, address):
+        """ Find the VRomFile which contains the given address. """
+        for vfile in self.vrom_files:
+            if vfile.start <= address < vfile.end:
+                return vfile
+
+    def print_patch(self, patch, outfile=sys.stdout):
+        """ Print patch entry. """
+        vfile = self.find_file_for_address(patch.address)
         if vfile is not None:
-            offset = data.address - vfile.start
-            print('VRom File:    {:08X}, VRom Offset:  {:08X} >> {}'.format(vfile.start, offset, vfile.name))
-    print('VRom Address: {:08X}, Patch Offset: {:08X}'.format(data.address, data.offset))
-    hexdump.hexdump(data.data)
-    print()
+            offset = patch.address - vfile.start
+            print('VRom File:    {:08X}, VRom Offset:  {:08X} >> {}'.format(vfile.start, offset, vfile.name), file=outfile)
+        print('VRom Address: {:08X}, Patch Offset: {:08X}'.format(patch.address, patch.offset), file=outfile)
+        hex = hexdump.hexdump(patch.data, result='return')
+        print('{}'.format(hex), file=outfile)
+        print(file=outfile)
+
+    def write(self, patches, outfile=sys.stdout):
+        """ Write info about each PatchData to outfile. """
+        for patch in patches:
+            self.print_patch(patch, outfile=outfile)
 
 def read_patch(f):
     """ Read all patch entries in a given file. """
@@ -73,15 +96,16 @@ def main():
     """ Main function. """
     args = get_parser().parse_args()
 
-    vrom_files = None
+    writer = None
     if args.vrom_csv is not None:
         with open(args.vrom_csv, 'r') as csvfile:
-            vrom_files = tuple(generate_vrom_file_list_csv(csvfile))
+            writer = InfoWriter.from_csv(csvfile)
+    else:
+        writer = InfoWriter()
 
     with open(args.file, 'rb') as f:
         entries = read_patch(f)
-        for entry in entries:
-            print_patch(entry, vrom_files)
+        writer.write(entries)
 
 if __name__ == '__main__':
     main()
