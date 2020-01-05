@@ -13,21 +13,21 @@ VRomFile = collections.namedtuple('VRomFile', ('start', 'end', 'name'))
 """ Patch data. """
 PatchData = collections.namedtuple('PatchData', ('address', 'offset', 'data'))
 
-class InfoWriter(object):
-    """ Writes info for PatchData entries. """
+class CsvInfo(object):
+    """ Handles parsing VRomFile info from a specific CSV file. """
     def __init__(self, vrom_files=tuple()):
         self._vrom_files = vrom_files
 
     @staticmethod
-    def from_csv(csvfile):
+    def from_file(csvfile):
         """ Construct by parsing VRomFile entries from a CSV file. """
-        vrom_files = tuple(InfoWriter.generate_vrom_file_list_csv(csvfile))
-        return InfoWriter(vrom_files)
+        vrom_files = tuple(CsvInfo.generate_files(csvfile))
+        return CsvInfo(vrom_files)
 
     @staticmethod
-    def generate_vrom_file_list_csv(csvfile):
+    def generate_files(csvfile):
         """
-        Parse CSV file with VRom file list information.
+        Parse CSV file with VRomFile list information.
 
         Reference: "The Ultimate MM Spreadsheet - File List (US) 1.0.csv"
         """
@@ -42,18 +42,35 @@ class InfoWriter(object):
         """ Get the VRomFile entries. """
         return self._vrom_files
 
-    def find_file_for_address(self, address):
+    def find(self, address):
         """ Find the VRomFile which contains the given address. """
         for vfile in self.vrom_files:
             if vfile.start <= address < vfile.end:
                 return vfile
 
+class InfoWriter(object):
+    """ Writes info for PatchData entries. """
+    def __init__(self, csv_info=None):
+        self._csv_info = csv_info
+
+    @staticmethod
+    def from_csv(csvfile):
+        """ Construct by parsing VRomFile entries from a CSV file. """
+        csv_info = CsvInfo.from_file(csvfile)
+        return InfoWriter(csv_info=csv_info)
+
+    @property
+    def csv_info(self):
+        """ Get the CsvInfo. """
+        return self._csv_info
+
     def print_patch(self, patch, outfile=sys.stdout):
         """ Print patch entry. """
-        vfile = self.find_file_for_address(patch.address)
-        if vfile is not None:
-            offset = patch.address - vfile.start
-            print('VRom File:    {:08X}, VRom Offset:  {:08X} >> {}'.format(vfile.start, offset, vfile.name), file=outfile)
+        if self.csv_info:
+            vfile = self.csv_info.find(patch.address)
+            if vfile is not None:
+                offset = patch.address - vfile.start
+                print('VRom File:    {:08X}, VRom Offset:  {:08X} >> {}'.format(vfile.start, offset, vfile.name), file=outfile)
         print('VRom Address: {:08X}, Patch Offset: {:08X}'.format(patch.address, patch.offset), file=outfile)
         hex = hexdump.hexdump(patch.data, result='return')
         print('{}'.format(hex), file=outfile)
