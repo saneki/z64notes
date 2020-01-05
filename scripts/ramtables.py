@@ -8,6 +8,8 @@ import json
 import operator
 import sys
 
+import mmrpatch
+
 VRAMMapping = collections.namedtuple('VRAMMapping', ('vrom_start', 'vrom_end', 'vram_start', 'vram_end'))
 
 def deserialize(kls, data):
@@ -122,18 +124,30 @@ def print_section(name, items, outfile=sys.stdout):
     for item in items:
         print(' {:08X} => {:08X}'.format(item.vrom_start, item.vram_start), file=outfile)
 
-def dump_json(results, indent=2, outfile=sys.stdout):
+def dump_json(results, csv_info=None, indent=2, outfile=sys.stdout):
     """ Dump as JSON to a file. """
     # Take all values (tuples of VRAMMapping) and concat into one, then sort
     values = (v for (k, v) in results.items())
     values = itertools.chain(*values)
     values = (x._asdict() for x in values)
     array = sorted(values, key=lambda x: x['vrom_start'])
+
+    # Update with names from CSV file, very inefficient for now
+    if csv_info is not None:
+        for vfile in csv_info.vrom_files:
+            # Ignore files with unknown names
+            if vfile.name == '(?)':
+                continue
+            for item in array:
+                if item['vrom_start'] == vfile.start:
+                    item['name'] = vfile.name
+
     json.dump(array, outfile, indent=indent)
 
 def get_parser():
     """ Get the argument parser. """
     parser = argparse.ArgumentParser(description="Dump RAM tables from Majora's Mask (VROM -> VRAM)")
+    parser.add_argument('-c', '--vrom-csv', help='CSV file used to retrieve filenames')
     parser.add_argument('-j', '--to-json', action='store_true', help='Output as JSON')
     parser.add_argument('file', help='RAM dump file')
     return parser
@@ -141,10 +155,19 @@ def get_parser():
 def main():
     """ Main function. """
     args = get_parser().parse_args()
+
+    # Parse the CSV file if any
+    def handle_csv(filepath):
+        if filepath:
+            with open(filepath, 'r') as csvfile:
+                return mmrpatch.CsvInfo.from_file(csvfile)
+    csv_info = handle_csv(args.vrom_csv)
+
+    # Read and parse the RAM dump file and output information
     with open(args.file, 'rb') as fp:
         results = read(fp)
         if args.to_json:
-            dump_json(results)
+            dump_json(results, csv_info=csv_info)
         else:
             for name, items in results.items():
                 print_section(name, items)
