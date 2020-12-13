@@ -22,6 +22,8 @@ Field at `actor +0x148`:
   - Return: `0x80734ED0` (note: for this address, heap ends at `0x80750000`)
 
 Function `0x80425CCC` modifies `actor +0x148`.
+- Specifically sets field to `0.0`.
+- Also gets player actor (`game +0x1CCC`) and modifies `state_flags[1]` (`link +0xA70`).
 
 ### Other Field
 
@@ -61,4 +63,33 @@ if (F12 < F2) {      // Clamp to roof value
 } else {
     F0 = F2;
 }
+```
+
+### New Session
+
+Velocity stuff at: `0x8041D23C`
+- Function: `0x8041D1F0`
+- Actor File: `0x8041A430`
+
+Beginning of function:
+
+```
+f32* T6 = *(f32**)(actor + 0x264);
+f32  F4 = *(f32*)(actor + 0x268);
+f32  F6 = *T6;
+
+// Current RDRAM: 0x8042E418, Actor File Offset: 0x13FE8
+f32  F8 = *(f32*)0x80A37078;
+
+f32  F2 = F4 - F6;
+f32  F0 = abs(F2);
+f32  F10 = F0 * F8;
+
+u32  A0 = (u32)F10;
+
+//
+// ... Code from above ...
+//
+
+f32  F0 = sinS_to_F((s16)A0);
 ```
