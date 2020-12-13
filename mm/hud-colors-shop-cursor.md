@@ -16,10 +16,10 @@ Writes these color values at: `0x8040DB10`
 ```c
 // actorBlinkDelta1:       *(f32*)(file +0x42FC)
 // actorBlinkDelta2:       *(f32*)(file +0x4300)
-// actor->shopCursorRed:   *(f32*)(actor +0x30C)
-// actor->shopCursorGreen: *(f32*)(actor +0x310)
-// actor->shopCursorBlue:  *(f32*)(actor +0x314)
-// actor->shopCursorAlpha: *(f32*)(actor +0x318)
+// actor->shopCursorRed:   *(u32*)(actor +0x30C)
+// actor->shopCursorGreen: *(u32*)(actor +0x310)
+// actor->shopCursorBlue:  *(u32*)(actor +0x314)
+// actor->shopCursorAlpha: *(u32*)(actor +0x318)
 // actor->shopCursorBlink: *(f32*)(actor +0x31C)
 // actor->shopCursorDir:    *(u8*)(actor +0x320)
 void UpdateShopCursorColor(Actor *actor) {
