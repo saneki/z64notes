@@ -1,0 +1,9 @@
+8040E53C
+
+0x800B9A04 - DrawActor(GlobalContext *context, Actor *actor);
+0x800BA42C - DrawAllActors(GlobalContext *context, ...);
+
+index = frame_cnt_1 & 1;
+offset = ((((((index << 7) + index) << 2) - index) << 4) + index) << 4;
+// (((index * 129) * 3) * 17) * 16;
+pointer = 0x80209EA0 + offset;

@@ -1,0 +1,127 @@
+Item, Type, Graphic, Object, Name
+01, 01, 2F, 00BF, Hero's Bow
+02, 01, 48, 0121, Fire Arrow
+03, 01, 49, 0121, Ice Arrow
+04, 01, 4A, 0121, Light Arrow
+08, 01, E5, 009F, Deku Stick
+0A, 01, CB, 00C6, Magic Bean
+0C, 01, 5E, 01CA, Powder Keg
+0D, 01, 75, 0228, Pictobox
+0E, 01, 30, 00C0, Lens of Truth
+0F, 01, 29, 00B4, Hookshot
+10, 01, 69, 01FB, Great Fairy's Sword
+11, 01, 58, 0196, Bottle with Red Potion
+12, 01, 01, 009E, Empty Bottle
+13, 01, 32, 00C1, Red Potion
+14, 01, 31, 00C1, Green Potion
+15, 01, 33, 00C1, Blue Potion
+16, 01, 3C, 0272, Fairy
+18, 01, 2C, 00B6, Bottle with Milk
+22, 01, 60, 01E9, Bottle with Gold Dust
+25, 01, 74, 0227, Bottle with Chateau Romani
+28, 01, 5A, 01B1, Moon's Tear
+29, 01, 5B, 01B2, Land Title Deed
+2A, 01, 41, 01B2, Swamp Title Deed
+2B, 01, 42, 01B2, Mountain Title Deed
+2C, 01, 44, 01B2, Ocean Title Deed
+2D, 01, 6D, 020F, Room Key
+2E, 01, 37, 0245, Letter to Mama
+2F, 01, 6E, 0210, Letter to Kafei
+30, 01, 6F, 0215, Pendant of Memories
+31, 01, 2E, 024D, Map of Clock Town
+31, 11, 2E, 024D, Map of Woodfall
+31, 21, 2E, 024D, Map of Snowhead
+31, 31, 2E, 024D, Map of Romani Ranch
+31, 41, 2E, 024D, Map of Great Bay
+31, 51, 2E, 024D, Map of Stone Tower
+32, 03, 5C, 01BD, Deku Mask
+33, 03, 45, 0119, Goron Mask
+34, 03, 46, 011A, Zora Mask
+35, 03, 76, 0242, Fierce Deity's Mask
+36, 03, 40, 0104, Mask of Truth
+37, 03, 0E, 0258, Kafei's Mask
+38, 03, 11, 0265, All Night Mask
+39, 03, 3F, 0103, Bunny Hood
+3A, 03, 2D, 0100, Keaton Mask
+3B, 03, 6A, 0209, Garo's Mask
+3C, 03, 71, 021F, Romani's Mask
+3D, 03, 0F, 0259, Circus Leader's Mask
+3E, 03, 72, 0225, Postman's Hat
+3F, 03, 04, 0282, Couple's Mask
+40, 03, 6B, 020A, Great Fairy's Mask
+41, 03, 6C, 020B, Gibdo Mask
+42, 03, 23, 0266, Don Gero's Mask
+43, 03, 03, 027D, Kamaro's Mask
+44, 03, 3E, 0102, Captain's Hat
+45, 03, 0D, 0254, Stone Mask
+46, 03, 10, 025A, Bremen Mask
+47, 03, 3B, 026D, Blast Mask
+48, 03, 3D, 027E, Mask of Scents
+49, 03, 73, 0226, Giant's Mask
+4D, 01, 56, 0148, Kokiri Sword
+4E, 01, 67, 01F9, Razor Sword
+4F, 01, 68, 01FA, Gilded Sword
+51, 01, D8, 00B3, Hero's Shield
+52, 01, 34, 00C3, Mirror Shield
+54, 01, 16, 0097, Large Quiver
+55, 01, 17, 0097, Largest Quiver
+56, 01, 18, 0098, Bomb Bag
+57, 01, 19, 0098, Big Bomb Bag
+58, 01, 1A, 0098, Biggest Bomb Bag
+5A, 01, 21, 00A8, Adult Wallet
+5B, 01, 22, 00A8, Giant Wallet
+61, 05, F8, 008F, Sonata of Awakening
+62, 05, FA, 008F, Goron Lullaby
+63, 05, FB, 008F, New Wave Bossa Nova
+64, 05, FA, 008F, Elegy of Emptiness
+65, 05, F9, 008F, Oath to Order
+68, 05, FB, 008F, Song of Healing
+69, 05, FB, 008F, Epona's Song
+6A, 05, FB, 008F, Song of Soaring
+6B, 05, FB, 008F, Song of Storms
+6D, 01, 0C, 0253, Bombers' Notebook
+6E, 04, B5, 0125, Swamp Skulltula Spirit
+6E, 04, B5, 0125, Ocean Skulltula Spirit
+6F, 02, 13, 0096, Heart Container
+74, 01, 0A, 0092, Woodfall Boss Key
+74, 11, 0A, 0092, Snowhead Boss Key
+74, 21, 0A, 0092, Great Bay Boss Key
+74, 31, 0A, 0092, Stone Tower Boss Key
+75, 01, 0B, 0091, Woodfall Compass
+75, 11, 0B, 0091, Snowhead Compass
+75, 21, 0B, 0091, Great Bay Compass
+75, 31, 0B, 0091, Stone Tower Compass
+76, 01, 1C, 00A0, Woodfall Map
+76, 11, 1C, 00A0, Snowhead Map
+76, 21, 1C, 00A0, Great Bay Map
+76, 31, 1C, 00A0, Stone Tower Map
+78, 01, FE, 0086, Woodfall Small Key
+78, 11, FE, 0086, Snowhead Small Key
+78, 21, FE, 0086, Great Bay Small Key
+78, 31, FE, 0086, Stone Tower Small Key
+7B, 04, 14, 0096, Piece of Heart
+85, 00, AF, 013F, Blue Rupee
+87, 01, AE, 013F, Red Rupee
+88, 04, AC, 013F, Purple Rupee
+89, 04, AB, 013F, Silver Rupee
+8A, 04, BD, 013F, Gold Rupee
+8E, 01, EE, 0094, 10 Deku Nuts
+90, 01, E1, 00A5, 10 Bombs
+93, 01, DC, 00AF, 10 Arrows
+94, 01, DB, 00AF, 30 Arrows
+95, 01, DA, 00AF, 50 Arrows
+98, 01, D9, 00B0, 10 Bombchu
+99, 01, D9, 00B0, Bombchu
+9A, 01, D9, 00B0, 5 Bombchu
+9B, 02, E3, 00A4, Magic Power
+9B, 12, E2, 00A4, Extended Magic Power
+9C, 02, 56, 0148, Spin Attack
+9D, 01, 4F, 013A, Clock Town Stray Fairy
+9D, 11, 4F, 013A, Woodfall Stray Fairy
+9D, 21, 4F, 013A, Snowhead Stray Fairy
+9D, 31, 4F, 013A, Great Bay Stray Fairy
+9D, 41, 4F, 013A, Stone Tower Stray Fairy
+9E, 02, 13, 0096, Double Defense
+9F, 01, 74, 0227, Chateau Romani
+A0, 01, 2C, 00B6, Milk
+A3, 01, 63, 01F0, Seahorse
