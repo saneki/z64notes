@@ -58,3 +58,17 @@ Read breakpoint on stored song:
 - `0x80154A58`
 - `0x80154A6C`
   - Around here is actually where it stores the stored song byte at `0x801C6A7C`, which is mentioned above.
+
+## Some Tracing
+
+Loads song ctxt struct from pointer: `*(void**)(0x803EB428 +0x1F00)`.
+
+Copies stored song byte at: `0x80154A64`
+- Stores in `*(u16*)(0x803EB428 +0x12028)`
+- Result: `0x803FD450`
+
+Copies at `0x80154B38`:
+- Stores in `*(u16*)(0x803EB428 +0x1202E)`
+
+Copies at `0x80154B4C`:
+- Re-stores in `*(u16*)(0x803EB428 +0x12028)`

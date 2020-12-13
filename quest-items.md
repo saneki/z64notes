@@ -173,3 +173,36 @@ Spectrum output for drawing Room Key in inventory:
 
 Seems to write an `FA` command (SetPrimColor) per item slot at: `0x8075077C`.
 - Getting alpha from: `*(u16*)(0x803FD850 +0x224)`
+
+## Kicked Out of Inn
+
+Spectrum output:
+
+```
+40FEB0:410B20 AF 01AB:  0000 01 FILE: 00F2F8C0:00F30530 INIT 804109E0:00F303F0
+```
+
+The actor `En_Time_Tag` (`0x1AB`) is used for kicking you out of the Inn.
+- VROM: `[0x00F2F8C0, 0x00F30530)`
+- VRAM: `[0x80AC9EA0, 0x80ACAB10)`
+
+It has a hardcoded check for Room Key at: `0x80410890`
+- Offset: `0x9E0`
+- VRAM: `0x80ACA880`
+
+## Removing Items
+
+When giving Ocean Title Deed, function is called to clear inventory slot: `0x801149A0`
+- Parameters: `func_0x801149A0(0x2C, 0x05)`
+  - Both are `s16`
+  - `0x2C` is item Id for Ocean Title Deed.
+  - `0x05` is the inventory slot.
+  - Function also seems to remove the item from the B & C buttons.
+  - Is called multiple times to remove, with the same arguments (called 3 times for Ocean Deed).
+
+## Adding Items
+
+When giving Moon's Tear for Land Title Deed, writes at: `0x801142DC`
+- Function: `0x80112E80`
+- Parameters: `func_0x80112E80(z2_game_t *game, u8 item)`
+- This is a really big function for some reason.
