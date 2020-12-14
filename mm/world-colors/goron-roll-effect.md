@@ -79,3 +79,64 @@ D9000000 00210405 06000204 0006080A
 0622181E 00242628 06281E24 0024022A
 06002C2E 002E302A DF000000 00000000
 ```
+
+## Goron Roll Effect Color Table (Red)
+
+Offset into object `0x14C`: `0x14660`
+
+This is used to draw specifically the "red tip" of the effect.
+- Alternates between 2 sets of colors per frame.
+
+```c
+struct {
+  u8 primColor1[5]; // #FF0000FF, 0x80
+  u8 primColor2[5]; // #FF9B00FF, 0x80
+  u8 unknown_A[2];  // Unused?
+  u8 envColor1[4];  // #640000FF
+  u8 envColor2[4];  // #C80000FF
+};
+```
+
+## Color Combiner Notes
+
+Default color values as HSV:
+
+```
+Prim:  #FF9B00 = hsv(36, 100.0, 100.0)
+Env:   #9B0000 = hsv(0, 100.0, 60.8)
+
+Prim1: #FF0000 = hsv(0, 100.0, 100.0)
+Env1:  #640000 = hsv(0, 100.0, 39.2)
+
+Prim2: #FF9B00 = hsv(36, 100.0, 100.0)
+Env2:  #C80000 = hsv(0, 100.0, 78.4)
+```
+
+Notes:
+- Prim colors always have max Saturation & Value.
+- Env colors always have max Saturation, hue locks to multiple of 120?
+
+`#4CD24C`: Combines better with env `#24C024` than env `#246424`.
+- `#4CD24C` = `hsv(120, 63.8, 82.4)` (Prim)
+- `#246424` = `hsv(120. 64.0, 39.2)` (Env, generated)
+- `#24C024` = `hsv(120, 81.3, 75.3)` (Env, draws better)
+- `#45C045` = `hsv(120, 64.0, 75.3)` (Env, draws better)
+- `#3CA63C` = `hsv(120, 64.0, 65.0)` (Env, better dark colors)
+
+## Punch Color
+
+Writes env color for punch at: `0x80127500`
+- Default color: `#FF0000`
+- Immediately after, writes `G_DL` instruction to call DList: `0x06011AB8`
+- Relevant `G_MOVEWORD`: `DB060018 805C4890`, which points to Goron object (`0x14C`)
+  - In this DList, writes Prim color: `FA000080 FFC832FF`
+  - Default color: `#FFC832`
+
+Relationship between `#FF9B00` and `#FFC832`:
+- `#FF9B00` = `hsv(36, 100.0, 100.0)`
+- `#FFC832` = `hsv(44, 80.4, 100.0)`
+- Mostly the same except for `5/4` saturation ratio?
+
+Punch is still partly red.
+- ~~Related to function call at `0x800B9AA0`?~~
+- Writes env color at: `0x80122E50`.
