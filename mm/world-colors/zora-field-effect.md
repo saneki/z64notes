@@ -40,6 +40,11 @@ In the called DList, there are color instructions at relative offsets:
 - `0x0198`: `G_SETPRIMCOLOR(0xAAFFFF82)`
 - `0x01A0`: `G_SETENVCOLOR(0x0096FFFF)`
 
+Colors:
+- `#0096FF` = `hsv(205, 100.0, 100.0)`
+- `#000064` = `hsv(240, 100.0, 39.2)`
+- `#AAFFFF` = `hsv(180, 33.3, 100.0)`
+
 ### Child DList (Raw)
 
 The called raw DList at `0x80633940 +0x11760`:
