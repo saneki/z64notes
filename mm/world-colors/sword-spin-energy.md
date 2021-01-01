@@ -131,8 +131,34 @@ Writes sparkle colors to "effect buffer?" starting at: `0x804DB1B0`
 ## Fierce Deity Damage Effect
 
 Writes env color for FD damage effect at: `0x800BF1E8`
-- Code looks like a mess similar to shop cursor color, where it *partly* alternates between two colors?
-- Not sure if the two colors are static or variable.
+- ~~Code looks like a mess similar to shop cursor color, where it *partly* alternates between two colors?~~
+- ~~Not sure if the two colors are static or variable.~~
+
+SetEnvColor: Loads colors from:
+- Red: `*(u8*)(A2 +0xC3B)`, likely also `s16` at `0xC3A`?
+- Grn: `*(s16*)(A2 +0xC3C)`
+- Blu: `*(s16*)(A2 +0xC3E)`
+- A2 = `*(void**)0x801F3F60`, or: `*(void**)(0x801EF670 +0x48F0)`
+  - This is `0x803824D0`? Spectrum lists as `STATIC CONTEXT`.
+  - Static context seems to be entirely RDRAM, not mapped from any file. Would need to initialize this at runtime.
+  - Or more likely just ignore these fields, since the hardcoded asm behavior needs to be changed anyways.
+- Thus colors start at: `0x8038310A`
+
+### Other Branch Code
+
+```
+40CA40:422960 AF 012F:  0000 06 FILE: 00E5F570:00E74630 INIT 8041FAE0:00E72610
+```
+
+Seems to be another code block which runs if this one doesn't, using a hardcoded env color value `#FFFF6480`.
+- Jumps here if `S1 != 0x15`, gets from `S7` which is from `0x0157 (sp)`
+- This stack value is set before the function call.
+- Function being called from: `0x80417AA4`, this is Majora's actor code.
+- Loads this value from: `*(u8*)(actor +0x1804)`
+- This might be a "is boss" type of check?
+
+Notes:
+- Jumps to `0x800BF034` at `jr ra`: `0x800BE7D4`
 
 ## Charging Sword Spin (Attempt 1)
 
